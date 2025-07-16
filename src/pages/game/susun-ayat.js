@@ -115,15 +115,14 @@ export default function SusunAyat() {
 
 function getSurahNumber(nama) {
   const daftar = {
-    "Al-Fatihah": 1,
-    "Al-Baqarah": 2,
-    "Ali Imran": 3,
-    "An-Nisa": 4,
-    "Al-Ma'idah": 5,
-    "Al-An'am": 6,
-    "Al-A'raf": 7,
-    // Tambahkan sesuai kebutuhan
+    "al-fatihah": 1,
+    "al-baqarah": 2,
+    "ali imran": 3,
+    "an-nisa": 4,
+    "al-ma'idah": 5,
+    "al-an'am": 6,
+    "al-a'raf": 7,
   };
 
-  return daftar[nama] || 1;
+  return daftar[nama.toLowerCase()] || 1;
 }
