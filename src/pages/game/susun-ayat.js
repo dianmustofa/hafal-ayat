@@ -1,5 +1,3 @@
-// File: /pages/mode/susun-ayat.js
-
 import { useEffect, useState } from "react";
 import { useRouter } from "next/router";
 
@@ -10,40 +8,7 @@ export default function SusunAyat() {
   const [selesai, setSelesai] = useState(false);
 
   const router = useRouter();
-  const { surat = "Al-Fatihah", ayat = 1 } = router.query;
-
-  // useEffect(() => {
-  //   const ambilAyat = async () => {
-  //     try {
-  //       const nomorSurat = getSurahNumber(surat);
-  //       const res = await fetch(`https://equran.id/api/surat/${nomorSurat}`);
-  //       const data = await res.json();
-
-  //       // const targetAyat = data.ayat?.find((a) => a.nomor === parseInt(ayat));
-  //       // const targetAyat = data.ayat?.find(
-  //       //   (a) => a.nomorAyat === parseInt(ayat)
-  //       // );
-
-  //       // const teks =
-  //       //   targetAyat?.teks_ar || "بِسْمِ اللَّهِ الرَّحْمَـٰنِ الرَّحِيمِ";
-
-  //       // const teks = targetAyat?.teks_ar || "Ayat tidak ditemukan.";
-
-  //       const targetAyat = data.ayat?.find((a) => a.nomor === parseInt(ayat));
-  //       const teks = targetAyat?.ar || "Ayat tidak ditemukan.";
-
-  //       const kata = teks.split(" ");
-
-  //       setJawabanBenar(kata);
-  //       setPotongan(shuffleArray(kata));
-  //       setJawabanUser([]);
-  //     } catch (err) {
-  //       console.error("Gagal mengambil ayat:", err);
-  //     }
-  //   };
-
-  //   if (surat && ayat) ambilAyat();
-  // }, [surat, ayat]);
+  const { surat, ayat } = router.query;
 
   useEffect(() => {
     if (!surat || !ayat) return;
@@ -62,6 +27,7 @@ export default function SusunAyat() {
         setJawabanBenar(kata);
         setPotongan(shuffleArray(kata));
         setJawabanUser([]);
+        setSelesai(false);
       } catch (err) {
         console.error("Gagal mengambil ayat:", err);
       }
@@ -142,6 +108,7 @@ export default function SusunAyat() {
   );
 }
 
+// mapping nama surat ke nomor
 function getSurahNumber(nama) {
   const daftar = {
     "al-fatihah": 1,
