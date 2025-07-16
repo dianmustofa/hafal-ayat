@@ -8,37 +8,36 @@ export default function SusunAyat() {
   const [jawabanBenar, setJawabanBenar] = useState([]);
   const [jawabanUser, setJawabanUser] = useState([]);
   const [selesai, setSelesai] = useState(false);
-  const [jawabanSalah, setJawabanSalah] = useState(false); // Tambahan
+  const [jawabanSalah, setJawabanSalah] = useState(false);
 
   const router = useRouter();
   const { surat, ayat } = router.query;
 
+  const ambilAyat = async () => {
+    try {
+      const res = await fetch(`https://api.quran.gading.dev/surah/${surat}`);
+      const data = await res.json();
+
+      const ayatNumber = parseInt(ayat);
+      const targetAyat = data?.data?.verses?.find(
+        (v) => v.number.inSurah === ayatNumber
+      );
+
+      const teks = targetAyat?.text?.arab || "Ayat tidak ditemukan.";
+      const kata = teks.split(" ");
+
+      setJawabanBenar(kata);
+      setPotongan(shuffleArray(kata));
+      setJawabanUser([]);
+      setSelesai(false);
+      setJawabanSalah(false);
+    } catch (err) {
+      console.error("Gagal mengambil ayat:", err);
+    }
+  };
+
   useEffect(() => {
     if (!surat || !ayat) return;
-
-    const ambilAyat = async () => {
-      try {
-        const res = await fetch(`https://api.quran.gading.dev/surah/${surat}`);
-        const data = await res.json();
-
-        const ayatNumber = parseInt(ayat);
-        const targetAyat = data?.data?.verses?.find(
-          (v) => v.number.inSurah === ayatNumber
-        );
-
-        const teks = targetAyat?.text?.arab || "Ayat tidak ditemukan.";
-        const kata = teks.split(" ");
-
-        setJawabanBenar(kata);
-        setPotongan(shuffleArray(kata));
-        setJawabanUser([]);
-        setSelesai(false);
-        setJawabanSalah(false);
-      } catch (err) {
-        console.error("Gagal mengambil ayat:", err);
-      }
-    };
-
     ambilAyat();
   }, [surat, ayat]);
 
@@ -54,7 +53,7 @@ export default function SusunAyat() {
   const handleKlikKata = (kata, index) => {
     setJawabanUser([...jawabanUser, kata]);
     setPotongan(potongan.filter((_, i) => i !== index));
-    setJawabanSalah(false); // Reset saat ada klik baru
+    setJawabanSalah(false);
   };
 
   const cekJawaban = () => {
@@ -64,7 +63,7 @@ export default function SusunAyat() {
       setJawabanSalah(false);
     } else {
       setSelesai(false);
-      setJawabanSalah(true); // Set ke true jika salah
+      setJawabanSalah(true);
     }
   };
 
@@ -102,26 +101,41 @@ export default function SusunAyat() {
           ))}
         </div>
 
-        <div className="mt-6 text-center">
+        <div className="mt-6 text-center space-y-3">
           <button
             onClick={cekJawaban}
             className="px-6 py-2 bg-yellow-500 text-white rounded-full hover:bg-yellow-600 transition"
           >
             Cek Jawaban
           </button>
+
+          {selesai && (
+            <div className="mt-4 text-green-600 font-semibold">
+              ✅ Jawaban kamu benar! MasyaAllah!
+            </div>
+          )}
+
+          {jawabanSalah && (
+            <div className="mt-4 text-red-500 font-semibold">
+              ❌ Jawaban belum tepat, coba lagi ya!
+            </div>
+          )}
+
+          <div className="flex justify-center gap-4 pt-4">
+            <button
+              onClick={ambilAyat}
+              className="px-5 py-2 border border-yellow-400 text-yellow-700 rounded hover:bg-yellow-100"
+            >
+              🔄 Ulangi Soal
+            </button>
+            <button
+              onClick={() => router.push(`/mode/susun-ayat`)}
+              className="px-5 py-2 border border-gray-300 text-gray-700 rounded hover:bg-gray-100"
+            >
+              🔙 Kembali
+            </button>
+          </div>
         </div>
-
-        {selesai && (
-          <div className="mt-4 text-center text-green-600 font-semibold">
-            ✅ Jawaban kamu benar! MasyaAllah!
-          </div>
-        )}
-
-        {jawabanSalah && (
-          <div className="mt-4 text-center text-red-500 font-semibold">
-            ❌ Jawaban belum tepat, coba lagi ya!
-          </div>
-        )}
       </div>
     </div>
   );
