@@ -15,7 +15,7 @@ export default function PilihSurat() {
     if (mode === "tebak-kata") {
       router.push(`/game/${mode}?surat=${suratSlug}&start=${start}&end=${end}`);
     } else if (mode === "susun-ayat") {
-      router.push(`/mode/susun-ayat?surat=${suratSlug}&ayat=${ayat}`);
+      router.push(`/game/susun-ayat?surat=${suratSlug}&ayat=${ayat}`);
     } else {
       alert("Mode tidak dikenali");
     }
