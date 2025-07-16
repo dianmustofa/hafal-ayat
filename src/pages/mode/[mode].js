@@ -2,7 +2,7 @@
 
 import { useRouter } from "next/router";
 import { useState } from "react";
-import { suratList } from "../data/suratList";
+import { suratList } from "../../data/suratList";
 
 export default function PilihSurat() {
   const router = useRouter();
