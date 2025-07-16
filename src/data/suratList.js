@@ -1,14 +1,9 @@
-// File: /data/suratList.js
-
+// /data/suratList.js
 export const suratList = [
-  { id: 1, nama: "Al-Fatihah" },
-  { id: 2, nama: "Al-Baqarah" },
-  { id: 3, nama: "Ali 'Imran" },
-  { id: 4, nama: "An-Nisa" },
-  { id: 5, nama: "Al-Ma'idah" },
-  { id: 6, nama: "Al-An'am" },
-  { id: 7, nama: "Al-A'raf" },
-  { id: 8, nama: "Al-Anfal" },
-  { id: 9, nama: "At-Taubah" },
-  { id: 10, nama: "Yunus" },
+  { id: 1, nama: "Al-Fatihah", slug: "al-fatihah" },
+  { id: 2, nama: "Al-Baqarah", slug: "al-baqarah" },
+  { id: 3, nama: "Ali Imran", slug: "ali-imran" },
+  { id: 4, nama: "An-Nisa", slug: "an-nisa" },
+  { id: 5, nama: "Al-Ma'idah", slug: "al-maidah" },
+  // lanjutkan sesuai kebutuhan
 ];

@@ -6,24 +6,19 @@ export default function PilihSurat() {
   const router = useRouter();
   const { mode } = router.query;
 
-  const [surat, setSurat] = useState(1);
+  const [suratSlug, setSuratSlug] = useState("al-fatihah");
   const [start, setStart] = useState(1);
   const [end, setEnd] = useState(3);
   const [ayat, setAyat] = useState(1);
 
   const handleMulai = () => {
     if (mode === "tebak-kata") {
-      router.push(`/game/${mode}?surat=${surat}&start=${start}&end=${end}`);
+      router.push(`/game/${mode}?surat=${suratSlug}&start=${start}&end=${end}`);
     } else if (mode === "susun-ayat") {
-      router.push(`/mode/susun-ayat?surat=${surat}&ayat=${ayat}`);
+      router.push(`/mode/susun-ayat?surat=${suratSlug}&ayat=${ayat}`);
     } else {
       alert("Mode tidak dikenali");
     }
-  };
-
-  const getNamaSurat = (id) => {
-    const s = suratList.find((s) => s.id === parseInt(id));
-    return s?.nama || `Surat ${id}`;
   };
 
   return (
@@ -34,25 +29,23 @@ export default function PilihSurat() {
         </h2>
 
         <div className="space-y-4">
-          {/* Pilih Surat */}
           <div>
             <label className="block mb-1 text-sm text-gray-700 font-medium">
-              Pilih Surat:
+              Surat:
             </label>
             <select
               className="w-full border border-gray-300 px-3 py-2 rounded"
-              value={surat}
-              onChange={(e) => setSurat(e.target.value)}
+              value={suratSlug}
+              onChange={(e) => setSuratSlug(e.target.value)}
             >
               {suratList.map((s) => (
-                <option key={s.id} value={s.id}>
+                <option key={s.slug} value={s.slug}>
                   {s.id}. {s.nama}
                 </option>
               ))}
             </select>
           </div>
 
-          {/* Input Ayat atau Range Ayat */}
           {mode === "tebak-kata" && (
             <div className="flex gap-2">
               <input
@@ -60,14 +53,14 @@ export default function PilihSurat() {
                 type="number"
                 value={start}
                 onChange={(e) => setStart(e.target.value)}
-                placeholder="Dari Ayat"
+                placeholder="Awal"
               />
               <input
                 className="w-1/2 border border-gray-300 px-3 py-2 rounded"
                 type="number"
                 value={end}
                 onChange={(e) => setEnd(e.target.value)}
-                placeholder="Sampai Ayat"
+                placeholder="Akhir"
               />
             </div>
           )}
@@ -82,7 +75,6 @@ export default function PilihSurat() {
                 type="number"
                 value={ayat}
                 onChange={(e) => setAyat(e.target.value)}
-                placeholder="Contoh: 1"
               />
             </div>
           )}
