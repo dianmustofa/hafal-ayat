@@ -18,9 +18,13 @@ export default function GameTebakKata() {
       getAyat(surat, start, end).then((ayatList) => {
         const soalList = ayatList.map((a) => {
           const words = a.text.arab.split(" ");
-          const rand = Math.floor(Math.random() * words.length);
+          // const rand = Math.floor(Math.random() * words.length);
+          const rand = Math.floor(Math.random() * (words.length - 2)) + 1; // hindari kata pertama & terakhir
           const jawaban = words[rand];
-          words[rand] = "____";
+          // words[rand] = "____";
+          words[rand] =
+            "<span class='text-gray-400 font-bold underline'>_____</span>";
+
           return {
             text: words.join(" "),
             correct: jawaban,
@@ -65,7 +69,12 @@ export default function GameTebakKata() {
       <h3 className="text-lg mb-4 font-semibold">
         Soal {index + 1} dari {soal.length}
       </h3>
-      <p className="text-2xl mb-6 text-center">{current.text}</p>
+      {/* <p className="text-2xl mb-6 text-center">{current.text}</p> */}
+      <p
+        className="text-2xl mb-6 text-center leading-relaxed"
+        dangerouslySetInnerHTML={{ __html: current.text }}
+      ></p>
+
       <div className="grid grid-cols-2 gap-4">
         {current.options.map((opt, i) => (
           <button
