@@ -19,10 +19,15 @@ export default function SusunAyat() {
         const res = await fetch(`https://equran.id/api/surat/${nomorSurat}`);
         const data = await res.json();
 
-        const targetAyat = data.ayat?.find((a) => a.nomor === parseInt(ayat));
+        // const targetAyat = data.ayat?.find((a) => a.nomor === parseInt(ayat));
+        const targetAyat = data.ayat?.find(
+          (a) => a.nomorAyat === parseInt(ayat)
+        );
 
-        const teks =
-          targetAyat?.teks_ar || "بِسْمِ اللَّهِ الرَّحْمَـٰنِ الرَّحِيمِ";
+        // const teks =
+        //   targetAyat?.teks_ar || "بِسْمِ اللَّهِ الرَّحْمَـٰنِ الرَّحِيمِ";
+
+        const teks = targetAyat?.teks_ar || "Ayat tidak ditemukan.";
         const kata = teks.split(" ");
 
         setJawabanBenar(kata);
