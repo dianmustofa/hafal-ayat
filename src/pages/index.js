@@ -56,7 +56,7 @@ export default function Home() {
 
       <footer className="text-center py-10 text-sm text-gray-500 border-t">
         &copy; {new Date().getFullYear()} <strong>HafalanQuran</strong>. Dibuat
-        dengan ❤️ untuk membantu menghafal Al-Qur'an.
+        dengan ❤️ untuk membantu menghafal Al-Qur&apos;an.
       </footer>
     </div>
   );
