@@ -12,24 +12,53 @@ export default function SusunAyat() {
   const router = useRouter();
   const { surat = "Al-Fatihah", ayat = 1 } = router.query;
 
+  // useEffect(() => {
+  //   const ambilAyat = async () => {
+  //     try {
+  //       const nomorSurat = getSurahNumber(surat);
+  //       const res = await fetch(`https://equran.id/api/surat/${nomorSurat}`);
+  //       const data = await res.json();
+
+  //       // const targetAyat = data.ayat?.find((a) => a.nomor === parseInt(ayat));
+  //       // const targetAyat = data.ayat?.find(
+  //       //   (a) => a.nomorAyat === parseInt(ayat)
+  //       // );
+
+  //       // const teks =
+  //       //   targetAyat?.teks_ar || "بِسْمِ اللَّهِ الرَّحْمَـٰنِ الرَّحِيمِ";
+
+  //       // const teks = targetAyat?.teks_ar || "Ayat tidak ditemukan.";
+
+  //       const targetAyat = data.ayat?.find((a) => a.nomor === parseInt(ayat));
+  //       const teks = targetAyat?.ar || "Ayat tidak ditemukan.";
+
+  //       const kata = teks.split(" ");
+
+  //       setJawabanBenar(kata);
+  //       setPotongan(shuffleArray(kata));
+  //       setJawabanUser([]);
+  //     } catch (err) {
+  //       console.error("Gagal mengambil ayat:", err);
+  //     }
+  //   };
+
+  //   if (surat && ayat) ambilAyat();
+  // }, [surat, ayat]);
+
   useEffect(() => {
+    if (!surat || !ayat) return;
+
     const ambilAyat = async () => {
       try {
         const nomorSurat = getSurahNumber(surat);
         const res = await fetch(`https://equran.id/api/surat/${nomorSurat}`);
         const data = await res.json();
 
-        // const targetAyat = data.ayat?.find((a) => a.nomor === parseInt(ayat));
-        const targetAyat = data.ayat?.find(
-          (a) => a.nomorAyat === parseInt(ayat)
-        );
+        const ayatNumber = parseInt(ayat);
+        const targetAyat = data.ayat?.find((a) => a.nomor === ayatNumber);
+        const teks = targetAyat?.ar || "Ayat tidak ditemukan.";
 
-        // const teks =
-        //   targetAyat?.teks_ar || "بِسْمِ اللَّهِ الرَّحْمَـٰنِ الرَّحِيمِ";
-
-        const teks = targetAyat?.teks_ar || "Ayat tidak ditemukan.";
         const kata = teks.split(" ");
-
         setJawabanBenar(kata);
         setPotongan(shuffleArray(kata));
         setJawabanUser([]);
@@ -38,7 +67,7 @@ export default function SusunAyat() {
       }
     };
 
-    if (surat && ayat) ambilAyat();
+    ambilAyat();
   }, [surat, ayat]);
 
   const shuffleArray = (arr) => {
