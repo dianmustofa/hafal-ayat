@@ -1,7 +1,6 @@
 // File: /pages/mode/susun-ayat.js
 
 import { useEffect, useState } from "react";
-import suratList from "@/data/suratList"; // Pastikan ini sesuai path
 import { useRouter } from "next/router";
 
 export default function SusunAyat() {
@@ -11,20 +10,21 @@ export default function SusunAyat() {
   const [selesai, setSelesai] = useState(false);
 
   const router = useRouter();
-  const surat = router.query?.surat || "Al-Fatihah";
+  const { surat = "Al-Fatihah", ayat = 1 } = router.query;
 
   useEffect(() => {
     const ambilAyat = async () => {
       try {
-        const response = await fetch(
-          `https://equran.id/api/surat/${getSurahNumber(surat)}`
-        );
-        const data = await response.json();
+        const nomorSurat = getSurahNumber(surat);
+        const res = await fetch(`https://equran.id/api/surat/${nomorSurat}`);
+        const data = await res.json();
 
-        const ayat =
-          data.ayat[0]?.teks_ar || "بِسْمِ اللَّهِ الرَّحْمَـٰنِ الرَّحِيمِ";
+        const targetAyat = data.ayat?.find((a) => a.nomor === parseInt(ayat));
 
-        const kata = ayat.split(" ");
+        const teks =
+          targetAyat?.teks_ar || "بِسْمِ اللَّهِ الرَّحْمَـٰنِ الرَّحِيمِ";
+        const kata = teks.split(" ");
+
         setJawabanBenar(kata);
         setPotongan(shuffleArray(kata));
         setJawabanUser([]);
@@ -33,8 +33,8 @@ export default function SusunAyat() {
       }
     };
 
-    ambilAyat();
-  }, [surat]);
+    if (surat && ayat) ambilAyat();
+  }, [surat, ayat]);
 
   const shuffleArray = (arr) => {
     const copy = [...arr];
@@ -61,7 +61,8 @@ export default function SusunAyat() {
         🧩 Susun Ayat
       </h1>
       <p className="text-center text-gray-600 mb-4">
-        Susun ayat berikut sesuai urutan yang benar.
+        Susun ayat surat <strong>{surat}</strong> ayat ke-
+        <strong>{ayat}</strong> sesuai urutan yang benar.
       </p>
 
       <div className="max-w-2xl mx-auto mb-6">
@@ -107,16 +108,17 @@ export default function SusunAyat() {
   );
 }
 
-// Fungsi untuk mapping nama surat ke nomor
 function getSurahNumber(nama) {
-  const mapping = {
+  const daftar = {
     "Al-Fatihah": 1,
     "Al-Baqarah": 2,
     "Ali Imran": 3,
     "An-Nisa": 4,
     "Al-Ma'idah": 5,
+    "Al-An'am": 6,
+    "Al-A'raf": 7,
     // Tambahkan sesuai kebutuhan
   };
 
-  return mapping[nama] || 1;
+  return daftar[nama] || 1;
 }
