@@ -1,3 +1,5 @@
+// File: /pages/mode/[mode].js
+
 import { useRouter } from "next/router";
 import { useState } from "react";
 import { suratList } from "../../data/suratList";
@@ -12,13 +14,27 @@ export default function PilihSurat() {
   const [ayat, setAyat] = useState(1);
 
   const handleMulai = () => {
+    const suratId = getSuratIdFromSlug(suratSlug);
+
+    if (!suratId) {
+      alert("Surat tidak ditemukan");
+      return;
+    }
+
     if (mode === "tebak-kata") {
-      router.push(`/game/${mode}?surat=${suratSlug}&start=${start}&end=${end}`);
+      router.push(
+        `/game/tebak-kata?surat=${suratId}&start=${start}&end=${end}`
+      );
     } else if (mode === "susun-ayat") {
-      router.push(`/game/susun-ayat?surat=${suratSlug}&ayat=${ayat}`);
+      router.push(`/game/susun-ayat?surat=${suratId}&ayat=${ayat}`);
     } else {
       alert("Mode tidak dikenali");
     }
+  };
+
+  const getSuratIdFromSlug = (slug) => {
+    const found = suratList.find((s) => s.slug === slug);
+    return found ? found.id : null;
   };
 
   return (
@@ -51,15 +67,17 @@ export default function PilihSurat() {
               <input
                 className="w-1/2 border border-gray-300 px-3 py-2 rounded"
                 type="number"
+                min="1"
                 value={start}
-                onChange={(e) => setStart(e.target.value)}
+                onChange={(e) => setStart(Number(e.target.value))}
                 placeholder="Awal"
               />
               <input
                 className="w-1/2 border border-gray-300 px-3 py-2 rounded"
                 type="number"
+                min="1"
                 value={end}
-                onChange={(e) => setEnd(e.target.value)}
+                onChange={(e) => setEnd(Number(e.target.value))}
                 placeholder="Akhir"
               />
             </div>
@@ -73,8 +91,9 @@ export default function PilihSurat() {
               <input
                 className="w-full border border-gray-300 px-3 py-2 rounded"
                 type="number"
+                min="1"
                 value={ayat}
-                onChange={(e) => setAyat(e.target.value)}
+                onChange={(e) => setAyat(Number(e.target.value))}
               />
             </div>
           )}

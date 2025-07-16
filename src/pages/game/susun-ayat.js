@@ -1,3 +1,5 @@
+// File: /pages/mode/susun-ayat.js
+
 import { useEffect, useState } from "react";
 import { useRouter } from "next/router";
 
@@ -15,19 +17,20 @@ export default function SusunAyat() {
 
     const ambilAyat = async () => {
       try {
-        const nomorSurat = getSurahNumber(surat);
-        const res = await fetch(`https://equran.id/api/surat/${nomorSurat}`);
+        const res = await fetch(`https://api.quran.gading.dev/surah/${surat}`);
         const data = await res.json();
 
         const ayatNumber = parseInt(ayat);
-        const targetAyat = data.ayat?.find((a) => a.nomor === ayatNumber);
-        const teks = targetAyat?.ar || "Ayat tidak ditemukan.";
+        const targetAyat = data?.data?.verses?.find(
+          (v) => v.number.inSurah === ayatNumber
+        );
 
+        const teks = targetAyat?.text?.arab || "Ayat tidak ditemukan.";
         const kata = teks.split(" ");
+
         setJawabanBenar(kata);
         setPotongan(shuffleArray(kata));
         setJawabanUser([]);
-        setSelesai(false);
       } catch (err) {
         console.error("Gagal mengambil ayat:", err);
       }
@@ -106,19 +109,4 @@ export default function SusunAyat() {
       </div>
     </div>
   );
-}
-
-// mapping nama surat ke nomor
-function getSurahNumber(nama) {
-  const daftar = {
-    "al-fatihah": 1,
-    "al-baqarah": 2,
-    "ali imran": 3,
-    "an-nisa": 4,
-    "al-ma'idah": 5,
-    "al-an'am": 6,
-    "al-a'raf": 7,
-  };
-
-  return daftar[nama.toLowerCase()] || 1;
 }
