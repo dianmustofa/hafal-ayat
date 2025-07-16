@@ -1,5 +1,3 @@
-// File: /pages/mode/[mode].js
-
 import { useRouter } from "next/router";
 import { useState } from "react";
 import { suratList } from "../../data/suratList";
@@ -7,12 +5,25 @@ import { suratList } from "../../data/suratList";
 export default function PilihSurat() {
   const router = useRouter();
   const { mode } = router.query;
+
   const [surat, setSurat] = useState(1);
   const [start, setStart] = useState(1);
-  const [end, setEnd] = useState(7);
+  const [end, setEnd] = useState(3);
+  const [ayat, setAyat] = useState(1);
 
   const handleMulai = () => {
-    router.push(`/game/${mode}?surat=${surat}&start=${start}&end=${end}`);
+    if (mode === "tebak-kata") {
+      router.push(`/game/${mode}?surat=${surat}&start=${start}&end=${end}`);
+    } else if (mode === "susun-ayat") {
+      router.push(`/mode/susun-ayat?surat=${surat}&ayat=${ayat}`);
+    } else {
+      alert("Mode tidak dikenali");
+    }
+  };
+
+  const getNamaSurat = (id) => {
+    const s = suratList.find((s) => s.id === parseInt(id));
+    return s?.nama || `Surat ${id}`;
   };
 
   return (
@@ -23,9 +34,10 @@ export default function PilihSurat() {
         </h2>
 
         <div className="space-y-4">
+          {/* Pilih Surat */}
           <div>
             <label className="block mb-1 text-sm text-gray-700 font-medium">
-              Surat:
+              Pilih Surat:
             </label>
             <select
               className="w-full border border-gray-300 px-3 py-2 rounded"
@@ -40,22 +52,40 @@ export default function PilihSurat() {
             </select>
           </div>
 
-          <div className="flex gap-2">
-            <input
-              className="w-1/2 border border-gray-300 px-3 py-2 rounded"
-              type="number"
-              value={start}
-              onChange={(e) => setStart(e.target.value)}
-              placeholder="Awal"
-            />
-            <input
-              className="w-1/2 border border-gray-300 px-3 py-2 rounded"
-              type="number"
-              value={end}
-              onChange={(e) => setEnd(e.target.value)}
-              placeholder="Akhir"
-            />
-          </div>
+          {/* Input Ayat atau Range Ayat */}
+          {mode === "tebak-kata" && (
+            <div className="flex gap-2">
+              <input
+                className="w-1/2 border border-gray-300 px-3 py-2 rounded"
+                type="number"
+                value={start}
+                onChange={(e) => setStart(e.target.value)}
+                placeholder="Dari Ayat"
+              />
+              <input
+                className="w-1/2 border border-gray-300 px-3 py-2 rounded"
+                type="number"
+                value={end}
+                onChange={(e) => setEnd(e.target.value)}
+                placeholder="Sampai Ayat"
+              />
+            </div>
+          )}
+
+          {mode === "susun-ayat" && (
+            <div>
+              <label className="block mb-1 text-sm text-gray-700 font-medium">
+                Ayat ke:
+              </label>
+              <input
+                className="w-full border border-gray-300 px-3 py-2 rounded"
+                type="number"
+                value={ayat}
+                onChange={(e) => setAyat(e.target.value)}
+                placeholder="Contoh: 1"
+              />
+            </div>
+          )}
 
           <button
             onClick={handleMulai}
