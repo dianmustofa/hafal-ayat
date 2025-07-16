@@ -8,6 +8,7 @@ export default function SusunAyat() {
   const [jawabanBenar, setJawabanBenar] = useState([]);
   const [jawabanUser, setJawabanUser] = useState([]);
   const [selesai, setSelesai] = useState(false);
+  const [jawabanSalah, setJawabanSalah] = useState(false); // Tambahan
 
   const router = useRouter();
   const { surat, ayat } = router.query;
@@ -31,6 +32,8 @@ export default function SusunAyat() {
         setJawabanBenar(kata);
         setPotongan(shuffleArray(kata));
         setJawabanUser([]);
+        setSelesai(false);
+        setJawabanSalah(false);
       } catch (err) {
         console.error("Gagal mengambil ayat:", err);
       }
@@ -51,11 +54,18 @@ export default function SusunAyat() {
   const handleKlikKata = (kata, index) => {
     setJawabanUser([...jawabanUser, kata]);
     setPotongan(potongan.filter((_, i) => i !== index));
+    setJawabanSalah(false); // Reset saat ada klik baru
   };
 
   const cekJawaban = () => {
     const benar = JSON.stringify(jawabanUser) === JSON.stringify(jawabanBenar);
-    setSelesai(benar);
+    if (benar) {
+      setSelesai(true);
+      setJawabanSalah(false);
+    } else {
+      setSelesai(false);
+      setJawabanSalah(true); // Set ke true jika salah
+    }
   };
 
   return (
@@ -104,6 +114,12 @@ export default function SusunAyat() {
         {selesai && (
           <div className="mt-4 text-center text-green-600 font-semibold">
             ✅ Jawaban kamu benar! MasyaAllah!
+          </div>
+        )}
+
+        {jawabanSalah && (
+          <div className="mt-4 text-center text-red-500 font-semibold">
+            ❌ Jawaban belum tepat, coba lagi ya!
           </div>
         )}
       </div>
