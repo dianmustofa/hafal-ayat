@@ -73,12 +73,12 @@ export default function GameTebakKata() {
         Tebak kata dari ayat dan surat yang anda pilih.
       </p>
 
-      <h4 className="text-lg mb-4 font-semibold">
+      <h4 className="text-lg mb-4  text-gray-800 font-semibold">
         Soal {index + 1} dari {soal.length}
       </h4>
       {/* <p className="text-2xl mb-6 text-center">{current.text}</p> */}
       <p
-        className="text-2xl mb-6 text-center leading-relaxed"
+        className="text-2xl mb-6  text-gray-800 text-center leading-relaxed"
         dangerouslySetInnerHTML={{ __html: current.text }}
       ></p>
 
