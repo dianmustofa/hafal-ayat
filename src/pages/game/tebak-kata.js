@@ -65,10 +65,17 @@ export default function GameTebakKata() {
   const current = soal[index];
 
   return (
-    <div className="p-6">
-      <h3 className="text-lg mb-4 font-semibold">
+    <div className="min-h-screen bg-yellow-50 py-10 px-4">
+      <h1 className="text-3xl font-bold text-center text-yellow-700 mb-6">
+        Tebak Kata
+      </h1>
+      <p className="text-center text-gray-600 mb-4">
+        Tebak kata dari ayat dan surat yang anda pilih.
+      </p>
+
+      <h4 className="text-lg mb-4 font-semibold">
         Soal {index + 1} dari {soal.length}
-      </h3>
+      </h4>
       {/* <p className="text-2xl mb-6 text-center">{current.text}</p> */}
       <p
         className="text-2xl mb-6 text-center leading-relaxed"
@@ -80,12 +87,12 @@ export default function GameTebakKata() {
           <button
             key={i}
             onClick={() => handleJawab(opt)}
-            className={`p-3 border rounded ${
+            className={`p-3 border rounded text-base font-semibold transition ${
               jawab === opt
                 ? opt === current.correct
-                  ? "bg-green-300"
-                  : "bg-red-300"
-                : "bg-white"
+                  ? "bg-green-300 text-black"
+                  : "bg-red-300 text-black"
+                : "bg-white text-black hover:bg-gray-100"
             }`}
           >
             {opt}
