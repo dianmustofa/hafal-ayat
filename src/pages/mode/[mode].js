@@ -46,11 +46,11 @@ export default function PilihSurat() {
 
         <div className="space-y-4">
           <div>
-            <label className="block mb-1 text-sm text-gray-700 font-medium">
+            <label className="block mb-1 text-sm md:text-base text-gray-700 dark:text-gray-200 font-medium">
               Surat:
             </label>
             <select
-              className="w-full border border-gray-300 px-3 py-2 rounded"
+              className="w-full border border-gray-300 px-3 py-2 rounded text-sm md:text-base bg-white text-gray-800"
               value={suratSlug}
               onChange={(e) => setSuratSlug(e.target.value)}
             >
