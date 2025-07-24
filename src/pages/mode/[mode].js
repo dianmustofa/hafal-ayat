@@ -65,7 +65,7 @@ export default function PilihSurat() {
           {mode === "tebak-kata" && (
             <div className="flex flex-col sm:flex-row gap-2">
               <input
-                className="w-full sm:w-1/2 border border-gray-300 px-3 py-2 rounded text-base"
+                className="w-full sm:w-1/2 border border-gray-300 px-3 py-2 rounded text-gray-800"
                 type="number"
                 min="1"
                 value={start}
@@ -73,7 +73,7 @@ export default function PilihSurat() {
                 placeholder="Awal"
               />
               <input
-                className="w-full sm:w-1/2 border border-gray-300 px-3 py-2 rounded text-base"
+                className="w-full sm:w-1/2 border border-gray-300 px-3 py-2 rounded text-gray-800"
                 type="number"
                 min="1"
                 value={end}
