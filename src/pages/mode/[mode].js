@@ -95,7 +95,7 @@ export default function PilihSurat() {
                 Ayat ke:
               </label>
               <input
-                className="w-full sm:w-1/2 border border-gray-300 px-3 py-2 rounded text-gray-800"
+                className="w-full border border-gray-300 px-3 py-2 rounded text-gray-800"
                 type="number"
                 min="1"
                 value={ayat}
