@@ -64,8 +64,8 @@ export default function PilihSurat() {
 
           {mode === "tebak-kata" && (
             <div className="flex flex-col sm:flex-row gap-2">
-              <label className="block mb-1 text-sm text-gray-700 font-medium">
-                Dari Ayat ke:
+              <label className="mb-1 text-sm text-gray-700 font-medium">
+                Dari Ayat:
               </label>
               <input
                 className="w-full sm:w-1/2 border border-gray-300 px-3 py-2 rounded text-gray-800"
@@ -75,8 +75,8 @@ export default function PilihSurat() {
                 onChange={(e) => setStart(Number(e.target.value))}
                 placeholder="Awal"
               />
-              <label className="block mb-1 text-sm text-gray-700 font-medium">
-                Hingga Ayat ke:
+              <label className="mb-1 text-sm text-gray-700 font-medium">
+                Hingga Ayat:
               </label>
               <input
                 className="w-full sm:w-1/2 border border-gray-300 px-3 py-2 rounded text-gray-800"
