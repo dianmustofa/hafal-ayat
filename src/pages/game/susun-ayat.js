@@ -82,7 +82,7 @@ export default function SusunAyat() {
           {jawabanUser.map((kata, i) => (
             <span
               key={i}
-              className="px-3 py-1 bg-yellow-200 text-yellow-900 rounded-full text-lg"
+              className="px-3 py-1 bg-yellow-500 text-white rounded-full text-base sm:text-lg font-semibold"
             >
               {kata}
             </span>
@@ -94,7 +94,7 @@ export default function SusunAyat() {
             <button
               key={index}
               onClick={() => handleKlikKata(kata, index)}
-              className="px-4 py-2 bg-white border border-yellow-300 rounded-lg shadow hover:bg-yellow-100 transition"
+              className="px-4 py-2 bg-yellow-100 text-yellow-900 border border-yellow-300 rounded-lg shadow hover:bg-yellow-200 transition text-base sm:text-lg font-medium"
             >
               {kata}
             </button>
